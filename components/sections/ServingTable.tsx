@@ -493,14 +493,32 @@ export default function ServingTable() {
                 opacity: { duration: 0.6, ease: 'easeOut' },
               }}
             >
-              <Image
-                src={`/dishes/${dishes[currentIndex].file}`}
-                alt={dishes[currentIndex].name}
-                fill
-                sizes={isMobile ? '280px' : '480px'}
-                style={{ objectFit: 'contain' }}
-                priority={currentIndex === 0}
-              />
+              <motion.div
+                animate={{
+                  y: [0, -10, 0],
+                  rotate: [-1.2, 1.2, -1.2],
+                  scale: [1, 1.015, 1],
+                }}
+                transition={{
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  transformOrigin: '50% 55%',
+                }}
+              >
+                <Image
+                  src={`/dishes/${dishes[currentIndex].file}`}
+                  alt={dishes[currentIndex].name}
+                  fill
+                  sizes={isMobile ? '280px' : '480px'}
+                  style={{ objectFit: 'contain' }}
+                  priority={currentIndex === 0}
+                />
+              </motion.div>
             </motion.div>
           </AnimatePresence>
         </div>
