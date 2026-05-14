@@ -72,25 +72,27 @@ export default function Navbar() {
     >
       {/* Left links */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
-        <a href="#" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Home</a>
-        <a href="#" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>About</a>
+        <a href="/" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Home</a>
+        <a href="#about" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>About</a>
       </div>
 
       {/* Logo */}
-      <Image
-        src="/images/logo-light.png"
-        alt="Rameshwaram Cafe"
-        width={0}
-        height={0}
-        sizes="100vw"
-        style={{ width: 'auto', height: '68px', display: 'block' }}
-        priority
-      />
+      <a href="/" style={{ display: 'block', cursor: 'pointer' }}>
+        <Image
+          src="/images/logo-light.png"
+          alt="Rameshwaram Cafe"
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: 'auto', height: '68px', display: 'block' }}
+          priority
+        />
+      </a>
 
       {/* Right links */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
-        <a href="#" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Menu</a>
-        <a href="#" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Contact</a>
+        <a href="#menu" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Menu</a>
+        <a href="#testimonials" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Reviews</a>
       </div>
     </nav>
   )

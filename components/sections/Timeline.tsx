@@ -74,6 +74,7 @@ export default function Timeline() {
 
   return (
     <section
+      id="timeline"
       ref={sectionRef}
       style={{ background: '#0A0A0A', padding: '120px 80px' }}
     >

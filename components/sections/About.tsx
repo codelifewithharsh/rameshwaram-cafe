@@ -1,8 +1,8 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -19,9 +19,24 @@ const fadeUp = {
   transition: { duration: 0.8, ease: EASE },
 }
 
+const values = [
+  { letter: 'R', value: 'Reliable' },
+  { letter: 'A', value: 'Authentic' },
+  { letter: 'M', value: 'Meticulous Techniques' },
+  { letter: 'E', value: 'Economical' },
+  { letter: 'S', value: 'Sustainable' },
+  { letter: 'H', value: 'Hygienic' },
+  { letter: 'W', value: 'Warm Hospitality' },
+  { letter: 'A', value: 'Accountable' },
+  { letter: 'R', value: 'Responsible' },
+  { letter: 'A', value: 'Aspirational' },
+  { letter: 'M', value: 'Mission Driven' },
+]
+
 export default function About() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+  const [activeValue, setActiveValue] = useState<number | null>(null)
 
   useEffect(() => {
     const container = scrollContainerRef.current
@@ -42,63 +57,52 @@ export default function About() {
   }, [])
 
   return (
-    <div ref={scrollContainerRef} style={{ height: '500vh', position: 'relative' }}>
+    <div id="about" ref={scrollContainerRef} style={{ height: '300vh', position: 'relative' }}>
       <section style={{
         position: 'sticky',
         top: 0,
         height: '100vh',
         overflow: 'hidden',
         background: '#0A0A0A',
+        clipPath: 'inset(0)',
+        paddingTop: '80px',
       }}>
         <div
           ref={trackRef}
           style={{
             display: 'flex',
-            width: '400vw',
+            width: '300vw',
             height: '100vh',
             willChange: 'transform',
+            overflow: 'visible',
           }}
         >
 
-          {/* ── Panel 1 — The Origin ── */}
-          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'center' }}>
-            <div style={{ width: '50%', padding: '0 80px' }}>
-              <motion.div {...fadeUp}>
-                <span style={{ display: 'block', fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '24px' }}>
-                  OUR STORY
-                </span>
-                <h2 style={{ fontFamily: FONT_SERIF, fontSize: 'clamp(40px, 5vw, 68px)', fontWeight: 300, color: '#F5F0E8', lineHeight: 1.1, margin: '0 0 24px 0' }}>
-                  Our Cafe is our Temple.
-                </h2>
-                <p style={{ fontFamily: FONT_SANS, fontSize: '15px', color: '#A09080', lineHeight: 1.9, maxWidth: '420px', margin: 0 }}>
-                  Our Customers are Gods, and what we serve, is Prasadam. A premium South Indian chain serving authentic cuisine — fresh, hot, and true to tradition. From early risers to night owls, round the clock, food that feels like home.
-                </p>
-              </motion.div>
-            </div>
-            <div style={{ width: '50%', height: '100%', position: 'relative', borderLeft: '1px solid rgba(200,169,126,0.13)', overflow: 'hidden' }}>
-              <Image
-                src="/about/founders.png"
-                alt="Founders"
-                fill
-                sizes="50vw"
-                style={{ objectFit: 'cover', filter: 'grayscale(20%)' }}
-              />
-            </div>
-          </div>
-
-          {/* ── Panel 2 — The Inspiration ── */}
-          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', right: 0, top: '5%', height: '90%', width: '40%', opacity: 0.25, overflow: 'hidden' }}>
+          {/* ── Panel 1 — The Inspiration ── */}
+          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'stretch', overflow: 'visible', padding: 0 }}>
+            <div style={{ position: 'relative', width: '40%', height: '100vh', marginLeft: 0, paddingLeft: 0, flexShrink: 0, overflow: 'visible' }}>
               <Image
                 src="/about/kalam.png"
-                alt=""
+                alt="Dr. A.P.J. Abdul Kalam"
                 fill
                 sizes="40vw"
-                style={{ objectFit: 'contain', objectPosition: 'right center' }}
-                aria-hidden
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'top center',
+                  color: 'transparent',
+                }}
               />
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                width: '120px',
+                height: '100%',
+                background: 'linear-gradient(to right, transparent 0%, #0A0A0A 100%)',
+                pointerEvents: 'none',
+              }} />
             </div>
-            <div style={{ width: '55%', padding: '0 80px', position: 'relative', zIndex: 1 }}>
+            <div style={{ flex: 1, padding: '80px 80px 80px 80px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <motion.div {...fadeUp}>
                 <span style={{ display: 'block', fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '32px' }}>
                   INSPIRED BY
@@ -116,67 +120,187 @@ export default function About() {
             </div>
           </div>
 
-          {/* ── Panel 3 — The Philosophy ── */}
-          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'center', padding: '0 80px', gap: '48px' }}>
-            <motion.div style={{ flex: 1 }} {...fadeUp}>
-              <div style={{ height: '200px', marginBottom: '24px', position: 'relative', overflow: 'hidden' }}>
-                <Image
-                  src="/about/bridge.png"
-                  alt="Fresh local ingredients"
-                  fill
-                  sizes="33vw"
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-              <h3 style={{ fontFamily: FONT_SERIF, fontSize: '28px', color: '#F5F0E8', margin: '0 0 12px 0' }}>Fresh. Local. Legendary.</h3>
-              <p style={{ fontFamily: FONT_SANS, fontSize: '14px', color: '#A09080', lineHeight: 1.8, margin: 0 }}>No refrigeration. Batter and chutneys made fresh in small batches throughout the day. Farm to tawa.</p>
-            </motion.div>
-
-            <motion.div style={{ flex: 1 }} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}>
-              <p style={{ fontFamily: FONT_SERIF, fontSize: '80px', fontWeight: 300, color: '#C8A97E', lineHeight: 1, margin: 0 }}>24/7</p>
-              <h3 style={{ fontFamily: FONT_SANS, fontSize: '18px', color: '#F5F0E8', margin: '8px 0 0 0' }}>Always Open</h3>
-              <p style={{ fontFamily: FONT_SANS, fontSize: '14px', color: '#A09080', lineHeight: 1.8, margin: '12px 0 0 0' }}>Round the clock service — early risers, midnight cravings, and everything in between.</p>
-            </motion.div>
-
-            <motion.div style={{ flex: 1 }} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}>
-              <p style={{ fontFamily: FONT_SERIF, fontSize: '80px', fontWeight: 300, color: '#C8A97E', lineHeight: 1, margin: 0 }}>2021</p>
-              <h3 style={{ fontFamily: FONT_SANS, fontSize: '18px', color: '#F5F0E8', margin: '8px 0 0 0' }}>Born in Bengaluru</h3>
-              <p style={{ fontFamily: FONT_SANS, fontSize: '14px', color: '#A09080', lineHeight: 1.8, margin: '12px 0 0 0' }}>Started as a single outlet in Indiranagar. Today serving across Bengaluru, Hyderabad and beyond.</p>
-            </motion.div>
+          {/* ── Panel 2 — The Origin ── */}
+          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'center' }}>
+            <div style={{ width: '50%', padding: '0 80px' }}>
+              <motion.div {...fadeUp}>
+                <span style={{ display: 'block', fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '24px' }}>
+                  OUR STORY
+                </span>
+                <h2 style={{ fontFamily: FONT_SERIF, fontSize: 'clamp(40px, 5vw, 68px)', fontWeight: 300, color: '#F5F0E8', lineHeight: 1.1, margin: '0 0 24px 0' }}>
+                  Our Cafe is our Temple.
+                </h2>
+                <p style={{ fontFamily: FONT_SANS, fontSize: '15px', color: '#A09080', lineHeight: 1.9, maxWidth: '420px', margin: 0 }}>
+                  Our Customers are Gods, and what we serve, is Prasadam. A premium South Indian chain serving authentic cuisine — fresh, hot, and true to tradition. From early risers to night owls, round the clock, food that feels like home.
+                </p>
+              </motion.div>
+            </div>
+            <div style={{ width: '50%', height: '100%', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Image
+                src="/about/founders.png"
+                alt="Founders"
+                fill
+                sizes="50vw"
+                style={{
+                  objectFit: 'contain',
+                  objectPosition: 'center top',
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '120px',
+                background: 'linear-gradient(to top, #0A0A0A 0%, transparent 100%)',
+                pointerEvents: 'none',
+              }} />
+            </div>
           </div>
 
-          {/* ── Panel 4 — The Founders ── */}
-          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'center', padding: '0 80px' }}>
-            <motion.div style={{ display: 'flex', gap: '80px', width: '100%' }} {...fadeUp}>
-              <div style={{ flex: 1, maxWidth: '45%' }}>
-                <div style={{ height: '320px', marginBottom: '24px', position: 'relative', overflow: 'hidden' }}>
-                  <Image
-                    src="/about/founders.png"
-                    alt="Raghavendra Rao"
-                    fill
-                    sizes="22vw"
-                    style={{ objectFit: 'cover', objectPosition: 'left top', filter: 'grayscale(15%)' }}
-                  />
-                </div>
-                <h3 style={{ fontFamily: FONT_SERIF, fontSize: '28px', color: '#F5F0E8', margin: '0 0 6px 0' }}>Raghavendra Rao</h3>
-                <span style={{ fontFamily: FONT_SANS, fontSize: '12px', color: '#C8A97E', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Co-Founder & CEO</span>
-                <p style={{ fontFamily: FONT_SANS, fontSize: '14px', color: '#A09080', lineHeight: 1.8, margin: '12px 0 0 0' }}>20+ years in the food industry. A mechanical engineering graduate dedicated to perfecting operational excellence at The Rameshwaram Cafe.</p>
-              </div>
-              <div style={{ flex: 1, maxWidth: '45%' }}>
-                <div style={{ height: '320px', marginBottom: '24px', position: 'relative', overflow: 'hidden' }}>
-                  <Image
-                    src="/about/founders.png"
-                    alt="Divya Raghavendra Rao"
-                    fill
-                    sizes="22vw"
-                    style={{ objectFit: 'cover', objectPosition: 'right top', filter: 'grayscale(15%)' }}
-                  />
-                </div>
-                <h3 style={{ fontFamily: FONT_SERIF, fontSize: '28px', color: '#F5F0E8', margin: '0 0 6px 0' }}>Divya Raghavendra Rao</h3>
-                <span style={{ fontFamily: FONT_SANS, fontSize: '12px', color: '#C8A97E', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Co-Founder & Managing Director</span>
-                <p style={{ fontFamily: FONT_SANS, fontSize: '14px', color: '#A09080', lineHeight: 1.8, margin: '12px 0 0 0' }}>Chartered Accountant, IIM-A alumna. 12+ years in finance and management, leading the brand with strategic vision and financial discipline.</p>
-              </div>
-            </motion.div>
+          {/* ── Panel 3 — Our Values ── */}
+          <div style={{ minWidth: '100vw', height: '100vh', background: '#0A0A0A', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+            {/* Top bar header */}
+            <div style={{ position: 'absolute', top: '44px', left: 0, right: 0, display: 'flex', justifyContent: 'space-between', padding: '0 60px', zIndex: 10 }}>
+              <span style={{ fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+                OUR VALUES
+              </span>
+              <span style={{ fontFamily: FONT_SANS, fontSize: '11px', color: '#2A2A2A', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                11 PRINCIPLES
+              </span>
+            </div>
+
+            {/* TOP HALF — Horizontal Letters */}
+            <div style={{ width: '100%', height: '50%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 60px', position: 'relative' }}>
+              {values.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{
+                    delay: index * 0.04,
+                    duration: 0.6,
+                    ease: EASE,
+                  }}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%',
+                    cursor: 'default',
+                    position: 'relative',
+                  }}
+                  onMouseEnter={() => setActiveValue(index)}
+                  onMouseLeave={() => setActiveValue(null)}
+                >
+                  <span style={{ fontFamily: FONT_SERIF, fontSize: 'clamp(52px, 6.5vw, 96px)', fontWeight: 300, color: activeValue === index ? '#F5F0E8' : '#2A2A2A', transition: 'color 0.4s', userSelect: 'none' }}>
+                    {item.letter}
+                  </span>
+                  {activeValue === index && (
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                      style={{
+                        position: 'absolute',
+                        bottom: '20%',
+                        left: '10%',
+                        right: '10%',
+                        height: '1px',
+                        background: '#C8A97E',
+                        transformOrigin: 'left',
+                      }}
+                    />
+                  )}
+                </motion.div>
+              ))}
+            </div>
+
+            {/* DIVIDER LINE */}
+            <div style={{ width: '100%', height: '0.5px', background: 'linear-gradient(to right, transparent 0%, #2A2A2A 20%, #2A2A2A 80%, transparent 100%)' }} />
+
+            {/* BOTTOM HALF — Value Reveal */}
+            <div style={{ width: '100%', height: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+              <AnimatePresence mode="wait">
+                {activeValue === null ? (
+                  <motion.div
+                    key="hint"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <span style={{ fontFamily: FONT_SANS, fontSize: '11px', color: '#2A2A2A', letterSpacing: '0.2em', textTransform: 'uppercase', userSelect: 'none' }}>
+                      HOVER A LETTER
+                    </span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={activeValue}
+                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -30, filter: 'blur(4px)' }}
+                    transition={{ duration: 0.45, ease: EASE }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '16px',
+                      position: 'relative',
+                    }}
+                  >
+                    {/* Active letter — large faint background */}
+                    <span style={{
+                      position: 'absolute',
+                      fontFamily: FONT_SERIF,
+                      fontSize: 'clamp(160px, 22vw, 280px)',
+                      fontWeight: 300,
+                      color: 'rgba(200,169,126,0.04)',
+                      lineHeight: 1,
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                    }}>
+                      {values[activeValue].letter}
+                    </span>
+
+                    {/* Value name — centred, large */}
+                    <span style={{
+                      fontFamily: FONT_SERIF,
+                      fontSize: 'clamp(36px, 5.5vw, 80px)',
+                      fontWeight: 300,
+                      color: '#F5F0E8',
+                      letterSpacing: '-0.01em',
+                      lineHeight: 1,
+                      position: 'relative',
+                      zIndex: 1,
+                      textAlign: 'center',
+                    }}>
+                      {values[activeValue].value}
+                    </span>
+
+                    {/* Gold line */}
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.4, delay: 0.15, ease: EASE }}
+                      style={{
+                        width: '48px',
+                        height: '1px',
+                        background: '#C8A97E',
+                        transformOrigin: 'left',
+                        position: 'relative',
+                        zIndex: 1,
+                      }}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
         </div>

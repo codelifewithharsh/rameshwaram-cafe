@@ -45,7 +45,7 @@ export default function Awards() {
   const [row2Paused, setRow2Paused] = useState(false)
 
   return (
-    <section style={{ background: '#0A0A0A', padding: '120px 0' }}>
+    <section id="awards" style={{ background: '#0A0A0A', padding: '120px 0' }}>
       <style>{`
         @keyframes marquee-left {
           from { transform: translateX(0); }

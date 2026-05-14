@@ -74,6 +74,7 @@ export default function Testimonials() {
 
   return (
     <div
+      id="testimonials"
       ref={scrollContainerRef}
       style={{ height: `${(testimonials.length + 1) * 100}vh`, position: 'relative' }}
     >
@@ -101,6 +102,7 @@ export default function Testimonials() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          paddingTop: '120px',
         }}>
           {testimonials.map((t, i) => (
             <motion.div
