@@ -63,9 +63,10 @@ const cities = ['Bengaluru', 'Hyderabad', 'Pune']
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#0A0A0A', borderTop: '0.5px solid #1A1A1A' }}>
+    <footer className="site-footer" style={{ background: '#0A0A0A', borderTop: '0.5px solid #1A1A1A' }}>
       {/* ROW 1 — Big Statement */}
       <motion.div
+        className="site-footer__statement"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -80,7 +81,7 @@ export default function Footer() {
       </motion.div>
 
       {/* ROW 2 — Main Grid */}
-      <div style={{ borderTop: '0.5px solid #1A1A1A', padding: '60px 80px', display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr', gap: '60px', alignItems: 'start' }}>
+      <div className="site-footer__grid" style={{ borderTop: '0.5px solid #1A1A1A', padding: '60px 80px', display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr', gap: '60px', alignItems: 'start' }}>
         {/* Column 1 — Brand */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -232,15 +233,8 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      {/* ROW 3 — Centred Logo */}
-      <div style={{ borderTop: '0.5px solid #1A1A1A', padding: '60px 80px', display: 'flex', justifyContent: 'center' }}>
-        <a href="/" style={{ display: 'block' }}>
-          <Image src="/images/name-logo.svg" height={80} width={400} alt="Logo" style={{ opacity: 0.15 }} />
-        </a>
-      </div>
-
       {/* ROW 4 — Bottom Bar */}
-      <div style={{ borderTop: '0.5px solid #1A1A1A', padding: '20px 80px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="site-footer__bottom" style={{ borderTop: '0.5px solid #1A1A1A', padding: '20px 80px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontFamily: FONT_SANS, fontSize: '11px', color: '#3A3A3A' }}>
           © 2026 The Rameshwaram Cafe. All rights reserved.
         </span>
@@ -286,14 +280,18 @@ export default function Footer() {
               const el = e.currentTarget as HTMLElement
               el.style.color = '#F5F0E8'
               el.style.borderBottomColor = '#F5F0E8'
+              const strong = el.querySelector('span')
+              if (strong) strong.style.color = '#C8A97E'
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
               el.style.color = '#C8A97E'
               el.style.borderBottomColor = '#C8A97E44'
+              const strong = el.querySelector('span')
+              if (strong) strong.style.color = '#F5F0E8'
             }}
           >
-            Harsh
+            codelifewith<span style={{ color: '#F5F0E8', transition: 'color 0.3s ease' }}>harsh</span>
           </a>
         </div>
       </div>

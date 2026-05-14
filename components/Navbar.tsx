@@ -54,6 +54,7 @@ export default function Navbar() {
 
   return (
     <nav
+      className="site-nav"
       ref={navRef}
       style={{
         position: 'fixed',
@@ -71,13 +72,13 @@ export default function Navbar() {
       }}
     >
       {/* Left links */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
+      <div className="site-nav__links" style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
         <a href="/" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Home</a>
         <a href="#about" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>About</a>
       </div>
 
       {/* Logo */}
-      <a href="/" style={{ display: 'block', cursor: 'pointer' }}>
+      <a className="site-nav__logo" href="/" style={{ display: 'block', cursor: 'pointer' }}>
         <Image
           src="/images/logo-light.png"
           alt="Rameshwaram Cafe"
@@ -90,7 +91,7 @@ export default function Navbar() {
       </a>
 
       {/* Right links */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
+      <div className="site-nav__links" style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
         <a href="#menu" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Menu</a>
         <a href="#testimonials" style={linkStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>Reviews</a>
       </div>

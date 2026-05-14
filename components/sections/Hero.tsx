@@ -37,6 +37,7 @@ export default function Hero() {
 
   return (
     <section
+      className="hero-section"
       style={{
         position: 'relative',
         height: '100vh',
@@ -64,6 +65,7 @@ export default function Hero() {
 
       {/* Dual gradient overlay */}
       <div
+        className="hero-content"
         style={{
           position: 'absolute',
           inset: 0,
@@ -177,6 +179,7 @@ export default function Hero() {
 
       {/* Scroll hint — bottom right */}
       <div
+        className="hero-scroll-hint"
         ref={scrollHintRef}
         style={{
           position: 'absolute',

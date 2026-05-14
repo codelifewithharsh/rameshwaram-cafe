@@ -45,7 +45,7 @@ export default function Awards() {
   const [row2Paused, setRow2Paused] = useState(false)
 
   return (
-    <section id="awards" style={{ background: '#0A0A0A', padding: '120px 0' }}>
+    <section id="awards" className="awards-section" style={{ background: '#0A0A0A', padding: '120px 0' }}>
       <style>{`
         @keyframes marquee-left {
           from { transform: translateX(0); }
@@ -59,6 +59,7 @@ export default function Awards() {
 
       {/* Header */}
       <motion.div
+        className="awards-header"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}

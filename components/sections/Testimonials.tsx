@@ -74,11 +74,12 @@ export default function Testimonials() {
 
   return (
     <div
+      className="testimonials-scroll"
       id="testimonials"
       ref={scrollContainerRef}
       style={{ height: `${(testimonials.length + 1) * 100}vh`, position: 'relative' }}
     >
-      <section style={{
+      <section className="testimonials-section" style={{
         position: 'sticky',
         top: 0,
         height: '100vh',
@@ -86,7 +87,7 @@ export default function Testimonials() {
         overflow: 'hidden',
       }}>
         {/* Heading */}
-        <div style={{ padding: '60px 80px 0', position: 'relative', zIndex: 10 }}>
+        <div className="testimonials-header" style={{ padding: '60px 80px 0', position: 'relative', zIndex: 10 }}>
           <span style={{ display: 'block', fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '16px' }}>
             WHAT GUESTS SAY
           </span>
@@ -96,7 +97,7 @@ export default function Testimonials() {
         </div>
 
         {/* Card stack */}
-        <div style={{
+        <div className="testimonials-stack" style={{
           position: 'absolute',
           inset: 0,
           display: 'flex',
@@ -106,6 +107,7 @@ export default function Testimonials() {
         }}>
           {testimonials.map((t, i) => (
             <motion.div
+              className="testimonial-card"
               key={i}
               animate={getCardAnimate(i, activeIndex)}
               initial={{ opacity: i === 0 ? 1 : 0, y: i === 0 ? 0 : 80 }}

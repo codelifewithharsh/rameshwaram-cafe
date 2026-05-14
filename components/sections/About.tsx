@@ -42,6 +42,12 @@ export default function About() {
     const container = scrollContainerRef.current
     const track = trackRef.current
     if (!container || !track) return
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+
+    if (isMobile) {
+      track.style.transform = 'none'
+      return
+    }
 
     const st = ScrollTrigger.create({
       trigger: container,
@@ -57,8 +63,8 @@ export default function About() {
   }, [])
 
   return (
-    <div id="about" ref={scrollContainerRef} style={{ height: '300vh', position: 'relative' }}>
-      <section style={{
+    <div id="about" className="about-scroll" ref={scrollContainerRef} style={{ height: '300vh', position: 'relative' }}>
+      <section className="about-section" style={{
         position: 'sticky',
         top: 0,
         height: '100vh',
@@ -68,6 +74,7 @@ export default function About() {
         paddingTop: '80px',
       }}>
         <div
+          className="about-track"
           ref={trackRef}
           style={{
             display: 'flex',
@@ -79,8 +86,8 @@ export default function About() {
         >
 
           {/* ── Panel 1 — The Inspiration ── */}
-          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'stretch', overflow: 'visible', padding: 0 }}>
-            <div style={{ position: 'relative', width: '40%', height: '100vh', marginLeft: 0, paddingLeft: 0, flexShrink: 0, overflow: 'visible' }}>
+          <div className="about-panel about-panel--inspiration" style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'stretch', overflow: 'visible', padding: 0 }}>
+            <div className="about-panel__image about-panel__image--kalam" style={{ position: 'relative', width: '40%', height: '100vh', marginLeft: 0, paddingLeft: 0, flexShrink: 0, overflow: 'visible' }}>
               <Image
                 src="/about/kalam.png"
                 alt="Dr. A.P.J. Abdul Kalam"
@@ -102,7 +109,7 @@ export default function About() {
                 pointerEvents: 'none',
               }} />
             </div>
-            <div style={{ flex: 1, padding: '80px 80px 80px 80px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div className="about-panel__content" style={{ flex: 1, padding: '80px 80px 80px 80px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <motion.div {...fadeUp}>
                 <span style={{ display: 'block', fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '32px' }}>
                   INSPIRED BY
@@ -121,8 +128,8 @@ export default function About() {
           </div>
 
           {/* ── Panel 2 — The Origin ── */}
-          <div style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'center' }}>
-            <div style={{ width: '50%', padding: '0 80px' }}>
+          <div className="about-panel about-panel--origin" style={{ minWidth: '100vw', height: '100vh', display: 'flex', alignItems: 'center' }}>
+            <div className="about-panel__content" style={{ width: '50%', padding: '0 80px' }}>
               <motion.div {...fadeUp}>
                 <span style={{ display: 'block', fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '24px' }}>
                   OUR STORY
@@ -135,7 +142,7 @@ export default function About() {
                 </p>
               </motion.div>
             </div>
-            <div style={{ width: '50%', height: '100%', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="about-panel__image about-panel__image--founders" style={{ width: '50%', height: '100%', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Image
                 src="/about/founders.png"
                 alt="Founders"
@@ -159,9 +166,9 @@ export default function About() {
           </div>
 
           {/* ── Panel 3 — Our Values ── */}
-          <div style={{ minWidth: '100vw', height: '100vh', background: '#0A0A0A', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+          <div className="about-panel about-panel--values" style={{ minWidth: '100vw', height: '100vh', background: '#0A0A0A', display: 'flex', flexDirection: 'column', position: 'relative' }}>
             {/* Top bar header */}
-            <div style={{ position: 'absolute', top: '44px', left: 0, right: 0, display: 'flex', justifyContent: 'space-between', padding: '0 60px', zIndex: 10 }}>
+            <div className="about-values-header" style={{ position: 'absolute', top: '44px', left: 0, right: 0, display: 'flex', justifyContent: 'space-between', padding: '0 60px', zIndex: 10 }}>
               <span style={{ fontFamily: FONT_SANS, fontSize: '11px', color: '#C8A97E', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
                 OUR VALUES
               </span>
@@ -171,9 +178,10 @@ export default function About() {
             </div>
 
             {/* TOP HALF — Horizontal Letters */}
-            <div style={{ width: '100%', height: '50%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 60px', position: 'relative' }}>
+            <div className="about-values-word" style={{ width: '100%', height: '50%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 60px', position: 'relative' }}>
               {values.map((item, index) => (
                 <motion.div
+                  className="about-values-letter-item"
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -198,6 +206,9 @@ export default function About() {
                   <span style={{ fontFamily: FONT_SERIF, fontSize: 'clamp(52px, 6.5vw, 96px)', fontWeight: 300, color: activeValue === index ? '#F5F0E8' : '#2A2A2A', transition: 'color 0.4s', userSelect: 'none' }}>
                     {item.letter}
                   </span>
+                  <span className="about-values-mobile-text">
+                    {item.value}
+                  </span>
                   {activeValue === index && (
                     <motion.div
                       initial={{ scaleX: 0 }}
@@ -219,10 +230,10 @@ export default function About() {
             </div>
 
             {/* DIVIDER LINE */}
-            <div style={{ width: '100%', height: '0.5px', background: 'linear-gradient(to right, transparent 0%, #2A2A2A 20%, #2A2A2A 80%, transparent 100%)' }} />
+            <div className="about-values-divider" style={{ width: '100%', height: '0.5px', background: 'linear-gradient(to right, transparent 0%, #2A2A2A 20%, #2A2A2A 80%, transparent 100%)' }} />
 
             {/* BOTTOM HALF — Value Reveal */}
-            <div style={{ width: '100%', height: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+            <div className="about-values-reveal" style={{ width: '100%', height: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
               <AnimatePresence mode="wait">
                 {activeValue === null ? (
                   <motion.div

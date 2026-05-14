@@ -74,6 +74,7 @@ export default function Timeline() {
 
   return (
     <section
+      className="timeline-section"
       id="timeline"
       ref={sectionRef}
       style={{ background: '#0A0A0A', padding: '120px 80px' }}
@@ -96,6 +97,7 @@ export default function Timeline() {
 
       {/* Timeline */}
       <div
+        className="timeline-list"
         ref={timelineRef}
         style={{ position: 'relative', maxWidth: '900px', margin: '0 auto' }}
       >
@@ -126,6 +128,7 @@ export default function Timeline() {
         {/* Milestones */}
         {milestones.map((m, i) => (
           <div
+            className="timeline-item"
             key={i}
             style={{
               display: 'flex',
@@ -150,6 +153,7 @@ export default function Timeline() {
 
             {/* Card */}
             <motion.div
+              className="timeline-card"
               initial={{ opacity: 0, x: m.side === 'right' ? 60 : -60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.4 }}

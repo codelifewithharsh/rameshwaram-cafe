@@ -133,6 +133,7 @@ const textItem: Variants = {
 export default function ServingTable() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [hasInteracted, setHasInteracted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   const handleClick = () => {
     setCurrentIndex((prev) => (prev + 1) % dishes.length)
@@ -147,6 +148,14 @@ export default function ServingTable() {
     if (!ringRef.current) return
     gsap.set(ringRef.current, { xPercent: -50, yPercent: -50 })
     return () => {}
+  }, [])
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)')
+    const update = () => setIsMobile(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
   }, [])
 
   useEffect(() => {
@@ -169,6 +178,14 @@ export default function ServingTable() {
   const satelliteIndices = [1, 2, 3].map(
     (offset) => (currentIndex + offset) % dishes.length
   )
+  const ringSize = isMobile ? 320 : RING_SIZE
+  const ringRadius = ringSize / 2
+  const satelliteSize = isMobile ? 46 : SATELLITE_SIZE
+  const mainDishSize = isMobile ? 280 : 480
+  const centeredOffset = -(mainDishSize / 2)
+  const enterX = isMobile ? 170 : 330
+  const enterY = isMobile ? -140 : -230
+  const glowSize = isMobile ? 430 : 750
 
   const createPodi = (x: number, y: number) => {
     const el = document.createElement('div')
@@ -234,6 +251,7 @@ export default function ServingTable() {
 
   return (
     <section
+      className="serving-section"
       id="menu"
       ref={stickyRef}
       onClick={handleClick}
@@ -265,7 +283,7 @@ export default function ServingTable() {
         </span>
 
         {/* ── LEFT COLUMN — Text ── */}
-        <div style={{ width: '42%', position: 'relative', zIndex: 3, paddingRight: '60px' }}>
+        <div className="serving-text" style={{ width: '42%', position: 'relative', zIndex: 3, paddingRight: '60px' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -345,7 +363,7 @@ export default function ServingTable() {
         </div>
 
         {/* ── RIGHT COLUMN ── */}
-        <div style={{
+        <div className="serving-visual" style={{
           width: '58%',
           position: 'relative',
           height: '100vh',
@@ -356,6 +374,7 @@ export default function ServingTable() {
 
           {/* Element C — Ambient glow */}
           <motion.div
+            className="serving-glow"
             animate={{
               background: `radial-gradient(ellipse 70% 60% at 50% 50%, ${dishes[currentIndex].glowColor} 0%, transparent 70%)`,
             }}
@@ -365,8 +384,8 @@ export default function ServingTable() {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '750px',
-              height: '750px',
+              width: `${glowSize}px`,
+              height: `${glowSize}px`,
               borderRadius: '50%',
               pointerEvents: 'none',
               zIndex: 0,
@@ -375,11 +394,12 @@ export default function ServingTable() {
 
           {/* Element A — Orbital ring */}
           <div
+            className="serving-ring"
             ref={ringRef}
             style={{
               position: 'absolute',
-              width: `${RING_SIZE}px`,
-              height: `${RING_SIZE}px`,
+              width: `${ringSize}px`,
+              height: `${ringSize}px`,
               top: '50%',
               left: '50%',
               zIndex: 1,
@@ -396,19 +416,20 @@ export default function ServingTable() {
             {/* Satellites */}
             {SATELLITE_ANGLES.map((angle, i) => {
               const rad = (angle * Math.PI) / 180
-              const x = Math.cos(rad) * RING_RADIUS
-              const y = Math.sin(rad) * RING_RADIUS
-              const left = RING_RADIUS + x - SATELLITE_SIZE / 2
-              const top = RING_RADIUS + y - SATELLITE_SIZE / 2
+              const x = Math.cos(rad) * ringRadius
+              const y = Math.sin(rad) * ringRadius
+              const left = ringRadius + x - satelliteSize / 2
+              const top = ringRadius + y - satelliteSize / 2
 
               return (
                 <div
+                  className="serving-satellite"
                   key={i}
                   onClick={() => setCurrentIndex(satelliteIndices[i])}
                   style={{
                     position: 'absolute',
-                    width: `${SATELLITE_SIZE}px`,
-                    height: `${SATELLITE_SIZE}px`,
+                    width: `${satelliteSize}px`,
+                    height: `${satelliteSize}px`,
                     borderRadius: '50%',
                     overflow: 'hidden',
                     border: '1px solid rgba(200,169,126,0.25)',
@@ -436,7 +457,7 @@ export default function ServingTable() {
                           src={`/dishes/${dishes[satelliteIndices[i]].file}`}
                           alt=""
                           fill
-                          sizes={`${SATELLITE_SIZE}px`}
+                          sizes={`${satelliteSize}px`}
                           style={{ objectFit: 'cover' }}
                           aria-hidden
                         />
@@ -451,18 +472,19 @@ export default function ServingTable() {
           {/* Element B — Main dish */}
           <AnimatePresence mode="popLayout">
             <motion.div
+              className="serving-main-dish"
               key={currentIndex}
               style={{
                 position: 'absolute',
-                width: '480px',
-                height: '480px',
+                width: `${mainDishSize}px`,
+                height: `${mainDishSize}px`,
                 top: '50%',
                 left: '50%',
                 zIndex: 2,
               }}
-              initial={{ x: 330, y: -230, rotate: 12, scale: 0.75, opacity: 0 }}
-              animate={{ x: -240, y: -240, rotate: 0, scale: 1, opacity: 1 }}
-              exit={{ x: 330, y: -230, rotate: 12, scale: 0.75, opacity: 0 }}
+              initial={{ x: enterX, y: enterY, rotate: 12, scale: 0.75, opacity: 0 }}
+              animate={{ x: centeredOffset, y: centeredOffset, rotate: 0, scale: 1, opacity: 1 }}
+              exit={{ x: enterX, y: enterY, rotate: 12, scale: 0.75, opacity: 0 }}
               transition={{
                 x: { type: 'spring', stiffness: 35, damping: 18, mass: 1.5 },
                 y: { type: 'spring', stiffness: 30, damping: 16, mass: 1.5 },
@@ -475,7 +497,7 @@ export default function ServingTable() {
                 src={`/dishes/${dishes[currentIndex].file}`}
                 alt={dishes[currentIndex].name}
                 fill
-                sizes="480px"
+                sizes={isMobile ? '280px' : '480px'}
                 style={{ objectFit: 'contain' }}
                 priority={currentIndex === 0}
               />
@@ -486,6 +508,7 @@ export default function ServingTable() {
 
         {/* Click hint */}
         <motion.div
+          className="serving-click-hint"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
